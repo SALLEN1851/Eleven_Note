@@ -1,6 +1,6 @@
-namespace ElevenNotes.Services.User;
+namespace ElevenNote.Services.User;
 
 public interface IUserService
 {
-    
+
 }

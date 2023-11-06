@@ -1,6 +1,7 @@
+
 namespace ElevenNote.Services.User;
 
-public class UserService : IUserService;
+public class UserService : IUserService
 {
-    
+
 }
