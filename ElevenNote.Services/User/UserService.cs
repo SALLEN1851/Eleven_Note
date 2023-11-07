@@ -2,6 +2,7 @@ using ElevenNote.Models.User;
 using ElevenNote.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using ElevenNote.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace ElevenNote.Services.User
 {
@@ -19,13 +20,15 @@ namespace ElevenNote.Services.User
             if (await GetUserByEmailAsync(model.Email) != null || await GetUserByUsernameAsync(model.Username) != null)
                 return false;
 
-            UserEntity entity = new UserEntity
+            UserEntity entity = new ()
             {
                 Email = model.Email,
                 Username = model.Username,
-                Password = model.Password, // Be aware of storing passwords as plain text!
                 DateCreated = DateTime.Now
             };
+
+            var passwordHasher = new PasswordHasher<UserEntity>();
+            entity.Password = passwordHasher.HashPassword(entity, model.Password);
 
             _context.Users.Add(entity);
             int numberOfChanges = await _context.SaveChangesAsync();
